@@ -41,6 +41,9 @@ if not con.send_start():
 
 def get_sample():
     info = con.receive()  # Receive data from the RTDE stream
+    if info is None:
+        logger.warning("No data received from RTDE stream.")
+        return None
     mode = info.robot_mode  # Get the robot mode
     a_time = info.output_double_register_0  # Get the active time
     return (mode, a_time)  # Return the sample as a tuple
@@ -64,8 +67,8 @@ try:
 
         while (True):
             sample = get_sample()  # Get robot mode and active time
-            if  sample is None:
-                logger.warning("No data received from RTDE stream.")
+            if sample is None:
+                logger.warning("Sample is None, skipping this iteration.")
                 continue
             sample_count += 1
             if sample_count % 125 == 0:  # Log every 1 second (125 samples at 125 Hz)
