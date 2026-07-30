@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from M2 import calculate_utilization
+from M2 import calculate_utilization  #import the function to be tested
 
 
 def test_Power_ON():
@@ -27,7 +27,7 @@ def test_Power_OFF():
 def test_return_value():
 
     # Create a list of samples with timestamps, robot modes, and active times
-    samples = []  # 30 samples, mode 7 (ON), active time increasing by 0.5 seconds
+    samples = []  # 3Empty list of samples
     result = calculate_utilization(samples)
 
     assert result.powered_on_time == 0.0  # Total time from first to last sample (0 seconds)
@@ -41,7 +41,7 @@ def test_Mixed_Scenario():
     # Create a list of samples with timestamps, robot modes, and active times
     samples = ([ (base + timedelta(seconds=i), 4, i * 0.5) for i in range(10)]
     + [(base + timedelta(seconds=i), 7, i * 0.5) for i in range(10, 20)] 
-    + [(base + timedelta(seconds=i), 3, 9.5) for i in range(20, 30)]) # Mixed modes: 4 (IDLE), 7 (ON), 3 (OFF)
+    + [(base + timedelta(seconds=i), 3, 9.5) for i in range(20, 30)]) # Mixed modes: 4 (IDLE) for 10 seconds, 7 (ON) for 10 seconds, 3 (OFF) fpr 10 seconds
 
     result = calculate_utilization(samples)
     assert result.powered_on_time == 20.0  # Total time from first to last sample (20 seconds)
