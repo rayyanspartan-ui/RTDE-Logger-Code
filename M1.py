@@ -71,7 +71,7 @@ try:
                 logger.warning("Sample is None, skipping this iteration.")
                 continue
             sample_count += 1
-            if sample_count % 125 == 0:  # Log every 1 second (125 samples at 125 Hz)
+            if sample_count % (125 * 360) == 0:  # Log every 6 minutes (125 * 360 samples at 125 Hz)
                 log_data(writer, file, sample)  # Write data to CSV
 
 except KeyboardInterrupt:
