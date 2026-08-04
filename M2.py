@@ -23,14 +23,14 @@ def read_samples(path:Path) -> list[tuple[datetime, int, float]]:
             samples.append((timestamp, robot_mode, active_time))
     return samples
 
-def calculate_utilization(samples: list[tuple[datetime, int, float]]) -> UtilizationData:
+def calculate_utilization(samples: list[tuple[datetime, int, float]], powered_on_threshold:int = 4) -> UtilizationData:
     powered_on_time = 0.0
     for i in range(len(samples)-1):
         timestamp = samples[i][0]
         next_timestamp = samples[i+1][0]
         mode = samples[i][1]
         time_diff = (next_timestamp - timestamp).total_seconds()
-        if mode >= 4:  # Assuming mode >= 4 indicates ON state
+        if mode >= powered_on_threshold:  # Assuming mode >= powered_on_threshold indicates ON state
             powered_on_time += time_diff
 
     startA_time = samples[0][2] if samples else 0.0

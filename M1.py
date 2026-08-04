@@ -2,26 +2,27 @@ import csv
 import logging
 import sys
 from datetime import datetime, timezone
-from pathlib import Path
 
 from rtde import rtde_config as conf
 from rtde.rtde import RTDE
 
+import config
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-config_file = Path(r"C:\Users\localadmin\Desktop\RTDE Logger\RTDE-Logger-Code\RobotConfig.XML")
+config_file = config.ROBOTCONFIG  # Use the ROBOTCONFIG path from config.py
 
-path = Path(r"C:\Users\localadmin\Desktop\RTDE Logger\RTDE-Logger-Code\data.csv")
+path = config.CSV_PATH  # Use the CSV_PATH from config.py
 is_new = not path.exists()
 count = 0
 
-config = conf.ConfigFile(config_file)         #instantiate the config file
-names, types = config.get_recipe("out")       #get the names and types of the output recipe
+Robot_conf = conf.ConfigFile(config_file)         #instantiate the config file
+names, types = Robot_conf.get_recipe("out")       #get the names and types of the output recipe
 
 # RTDE connection parameters
-host = "127.0.0.1"
-port = 30004
+host = config.HOST
+port = config.PORT
 
 # Establish RTDE connection
 con = RTDE(host, port)
@@ -30,7 +31,7 @@ init = con.connect()   #Initialize the connection to the robot
 
 
 con.get_controller_version()          #Establish internal handshake with the robot controller
-channel_status = con.send_output_setup(names, types, frequency=125) #Set up output channel with the specified names and types, and set the frequency to 1 Hz
+channel_status = con.send_output_setup(names, types, frequency=config.POLLING_FREQUENCY) #Set up output channel with the specified names and types, and set the frequency to specififed value
 
 if channel_status == False:
     sys.exit("Unable to configure RTDE output")
@@ -71,7 +72,7 @@ try:
                 logger.warning("Sample is None, skipping this iteration.")
                 continue
             sample_count += 1
-            if sample_count % (125 * 360) == 0:  # Log every 6 minutes (125 * 360 samples at 125 Hz)
+            if sample_count % (config.POLLING_FREQUENCY * config.WRITING_FREQUENCY) == 0:  # Log every 6 minutes (125 * 360 samples at 125 Hz)
                 log_data(writer, file, sample)  # Write data to CSV
 
 except KeyboardInterrupt:
