@@ -1,4 +1,5 @@
 import csv
+import logging
 from datetime import datetime
 
 from openpyxl import Workbook, load_workbook
@@ -7,6 +8,9 @@ import config
 from M2 import calculate_utilization, read_samples
 
 path = config.EXCEL_PATH  # Use the EXCEL_PATH from config.py
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 def write_to_excel(utilization_data, path, date):
 
@@ -46,15 +50,15 @@ def verify_write(path, date):
         return False                        #Return False if there is an error while loading the Excel file
 
 
-def wipe_CSV(path, date):
-    if verify_write(path, date):
-        with open(config.CSV_PATH, 'w') as file:                  # Wipe the CSV file by opening it in write mode
+def wipe_CSV(CSV_path, Excel_path, date):
+    if verify_write(Excel_path, date):
+        with open(CSV_path, 'w', newline='') as file:                  # Wipe the CSV file by opening it in write mode
             writer = csv.writer(file)
             writer.writerow(['Timestamp', 'Robot Mode', 'Active Time'])  # Write only the header
-        print("CSV file has been wiped.")                  #Print confirmation of CSV wipe
+        logger.info("CSV file has been wiped.")                  #Print confirmation of CSV wipe
 
     else:
-        print("CSV file has NOT been wiped. The last entry in the Excel file does not match the current date.")       #Print warning if CSV file has not been wiped
+        logger.warning("CSV file has NOT been wiped. The last entry in the Excel file does not match the current date.")       #Print warning if CSV file has not been wiped
 
 
 
@@ -66,11 +70,16 @@ if __name__ == "__main__":
 
     date = datetime.now().strftime("%B %Y")   # "May 2026" in local time  # noqa: DTZ005
 
-    write_to_excel(utilization_data, path, date)  # Write the data to the Excel file
+    try:
 
-    verify = verify_write(path, date)  # Verify if the write operation was successful
+        write_to_excel(utilization_data, path, date)  # Write the data to the Excel file
 
-    wipe_CSV(config.CSV_PATH, date)  # Wipe the CSV file if the write operation was successful
+    except Exception as e:  # noqa: BLE001
+
+        logger.error(f"Failed to write to Excel file: {e}. CSV will not be wiped.")  # Log the error if writing to Excel fails
+
+    else:
+        wipe_CSV(config.CSV_PATH, config.EXCEL_PATH, date)  # Wipe the CSV file if the write operation was successful
 
 
 
