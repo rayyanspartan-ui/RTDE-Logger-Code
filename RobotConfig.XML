@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<rtde_config>
-	<recipe key="out">
-		<field name="robot_mode" type="INT32"/>
-		<field name="output_double_register_0" type="DOUBLE"/>
-	</recipe>
-</rtde_config>

@@ -3,8 +3,8 @@ from pathlib import Path
 
 #File pathing variables, for XML recipe and CSV intermediary file
 ROBOTCONFIG = Path(r"C:\Users\localadmin\Desktop\RTDE Logger\RTDE-Logger-Code\RobotConfig.XML")
-CSV_PATH = Path(r"C:\Users\localadmin\Desktop\RTDE Logger\RTDE-Logger-Code\data.csv")
-EXCEL_PATH = Path(r"C:\Users\localadmin\Desktop\RTDE Logger\Excel Tests\RTDE Logger Test.xlsx")
+CSV_PATH = Path(r"U:\New Products\Student Files, archive\Rayyan Ashar (May 2026 - December 2026)\RTDE-Logger-Code\Source Code\data.csv")
+EXCEL_PATH = Path(r"U:\New Products\Student Files, archive\Rayyan Ashar (May 2026 - December 2026)\RTDE-Logger-Code\Source Code\data.xlsx")
 
 # RTDE connection parameters
 HOST = "127.0.0.1"
