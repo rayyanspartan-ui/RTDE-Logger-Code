@@ -2,10 +2,11 @@ import csv
 import logging
 from datetime import datetime
 
-from openpyxl import Workbook, load_workbook
-
 import config
 from M2 import calculate_utilization, read_samples
+from openpyxl import Workbook, load_workbook
+from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
+from openpyxl.utils import get_column_letter
 
 path = config.EXCEL_PATH  # Use the EXCEL_PATH from config.py
 
@@ -25,7 +26,14 @@ def write_to_excel(utilization_data, path, date):
 
         # Write headers to the first row of the Excel sheet
         headers = ["Date","Powered On Time (hrs)", "Active Time (hrs)", "Idle Time (hrs)", "Utilization (%)"]      
-        ws.append(headers)            
+        ws.append(headers)
+        header_fill = PatternFill(start_color="D9D9D9", end_color="D9D9D9", fill_type="solid")
+        for cell in ws[1]:
+            cell.font = Font(bold=True)
+            cell.fill = header_fill
+            cell.alignment = Alignment(horizontal="center", vertical="center")            
+
+
     # Write data to the next available row in the Excel sheet
     data_row = [
         date,
@@ -35,6 +43,20 @@ def write_to_excel(utilization_data, path, date):
         round(utilization_data.utilization,1) if utilization_data.utilization is not None else "N/A"
     ]
     ws.append(data_row)  #Append data row to the Excel sheet
+
+    thin = Side(style="thin", color="000000")
+    border = Border(left=thin, right=thin, top=thin, bottom=thin)
+
+    for row in ws.iter_rows():
+        for cell in row:
+            cell.border = border
+            if cell.row != 1:
+                cell.alignment = Alignment(horizontal="center", vertical="center")
+
+    for col_cells in ws.columns:
+        max_length = max((len(str(cell.value)) for cell in col_cells if cell.value is not None), default=0)
+        col_letter = get_column_letter(col_cells[0].column)
+        ws.column_dimensions[col_letter].width = max_length + 4
 
     # Save the workbook
     wb.save(path)   
