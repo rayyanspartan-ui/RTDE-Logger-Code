@@ -2,11 +2,12 @@ import csv
 import logging
 from datetime import datetime
 
-import config
-from M2 import calculate_utilization, read_samples
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
+
+import config
+from M2 import calculate_utilization, read_samples
 
 path = config.EXCEL_PATH  # Use the EXCEL_PATH from config.py
 
