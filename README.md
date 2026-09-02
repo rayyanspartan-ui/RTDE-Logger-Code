@@ -27,7 +27,7 @@ Each value represents the following:
 - Active_Time: The current value of the active timer installation variable.
 
 Considering data is aggregated for the purpose of generating a monthly report, the CSV file stores data for each month, at the end of which the data is compiled into an Excel file  and the CSV is wiped clean to ensure no storage issues arise and the CSV is free for the next month's data.   
->Note that the CSV is only wiped once the program verifies that the data has landed in the Excel file.  
+>**Note that the CSV is only wiped once the program verifies that the data has landed in the Excel file.**  
 
 This compilation of data into the monthly Excel report is executed using the systemd service on the Pi and is scheduled to fire at 12:05 AM on the 1st of every month.
 
