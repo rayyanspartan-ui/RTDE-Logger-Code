@@ -45,3 +45,18 @@ If the computer is not powered on or logged in at the time of the pull and copy 
 
 ## Code Components:
 
+The code consists of 3 components:   
+
+> - **Logger.py**: Connects to the UR5e cobot arm using the RTDE python client library. Reads from the RTDE port every 6 minutes to grab data. Runs continuously as a systemd service.  
+>
+> - **Utilization.py**: Calculates the monthly utilization, active time, powered on time and idle time by reading the CSV file with the monthly raw data.
+>
+> - **Report.py**: Aggregates the raw CSV data by calling the functions in Utilization.py and processing the data into an Excel file. Writes the finished file to the Pi's SD card (internal storage). Executes on the first of the month as a systemd service at 12:05 am.
+
+### Additional supporting documents:
+> - **config.py**: Stores all configuration values for the logger program, such as file paths, robot IP port number and constant values  
+>
+> - **RobotConfig.XML**: XML recipe that details to the Pi what information to grab from the RTDE port on the robot. 
+
+
+
