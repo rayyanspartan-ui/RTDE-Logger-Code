@@ -35,7 +35,7 @@ If the Pi is not powered on at the time of the compilation task (as could be the
 
 ### Windows Relay:
 
-In order to transfer the monthly data from the Pi's storage drive to the company server, a relay between the Pi and the server was to be set up, due to restrictions around direct file transfer from the Pi.  
+In order to transfer the monthly data from the Pi's storage drive to the company server, a relay between the Pi and the server has been set up, due to restrictions around direct file transfer from the Pi.  
 
 As such, the 3D printing computer on the factory floor acts as a middle ground for the transfer of the monthly Excel report to the shared server. The 3D printer computer pulls the data file from the Pi at the end of each month using an SCP pull, saving a copy on the local drive as a backup and copying the monthly report onto the shared server. This is possible as the 3D printer computer is already authorized in the security system and has full access to the engineering drive. The SCP pull and copy task is run using Windows scheduler on the 2nd of every month. 
 
