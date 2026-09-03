@@ -9,7 +9,6 @@ EXCEL_PATH = Path(r"U:\New Products\Student Files, archive\Rayyan Ashar (May 202
 # RTDE connection parameters
 HOST = "127.0.0.1"
 PORT = 30004
-READFREQ = 360 # frequency at which to read data from the robot in seconds
 POLLING_FREQUENCY = 125 # in Hz, how often to poll the robot for data
 WRITING_FREQUENCY = 360  # Time interval between writes to the CSV file, corresponds to a frequency of every 6 minutes
 ROBOTMODE_THRESHOLD = 4  # robot_mode >= this counts as powered on; tune to change which states count

@@ -24,20 +24,25 @@ def read_samples(path:Path) -> list[tuple[datetime, int, float]]:
             samples.append((timestamp, robot_mode, active_time))
     return samples
 
-def calculate_utilization(samples: list[tuple[datetime, int, float]], powered_on_threshold:int = 4, readinterval:int = 4) -> UtilizationData:
+def calculate_utilization(samples: list[tuple[datetime, int, float]], powered_on_threshold:int = 4, readinterval:int = 360) -> UtilizationData:
     powered_on_time = 0.0
-    for i in range(len(samples)-1):
+    for i in range(len(samples)):
         mode = samples[i][1]
-        modecount = 0
         if mode >= powered_on_threshold:  # Assuming mode >= powered_on_threshold indicates ON state
-            modecount +=1
-            powered_on_time += modecount*readinterval
+            powered_on_time += readinterval\
+    
+    active_readings = [s[2] for s in samples if s[2]>0]  #Reading all active time values to calculate true active time, fileering out 0 values for inactivity of the robot
 
-    startA_time = samples[0][2] if samples else 0.0
-    endA_time = samples[-1][2] if samples else 0.0
+    if active_readings:         #Active time only calculated if the list is not empty
 
-    active_time = endA_time - startA_time
+        startA_time = min(active_readings)
+        endA_time = max(active_readings)
+        active_time = endA_time - startA_time
 
+    else: #empty list results in active time being 0
+        
+        active_time = 0
+    
     idle_time = powered_on_time - active_time
 
     utilization = (active_time / powered_on_time) * 100 if powered_on_time > 0 else None

@@ -89,7 +89,7 @@ if __name__ == "__main__":
     
     sample = read_samples(config.CSV_PATH)  # Read samples from the CSV file
 
-    utilization_data = calculate_utilization(sample, config.ROBOTMODE_THRESHOLD)  # Calculate utilization data
+    utilization_data = calculate_utilization(sample, config.ROBOTMODE_THRESHOLD, config.WRITING_FREQUENCY)  # Calculate utilization data
 
     date = datetime.now().strftime("%B %Y")   # "May 2026" in local time  # noqa: DTZ005
 
