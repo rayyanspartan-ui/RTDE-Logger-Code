@@ -9,6 +9,7 @@ class UtilizationData:
     powered_on_time: float
     active_time: float
     idle_time: float
+    
     utilization: float | None
 
 def read_samples(path:Path) -> list[tuple[datetime, int, float]]:
@@ -23,15 +24,14 @@ def read_samples(path:Path) -> list[tuple[datetime, int, float]]:
             samples.append((timestamp, robot_mode, active_time))
     return samples
 
-def calculate_utilization(samples: list[tuple[datetime, int, float]], powered_on_threshold:int = 4) -> UtilizationData:
+def calculate_utilization(samples: list[tuple[datetime, int, float]], powered_on_threshold:int = 4, readinterval:int = 4) -> UtilizationData:
     powered_on_time = 0.0
     for i in range(len(samples)-1):
-        timestamp = samples[i][0]
-        next_timestamp = samples[i+1][0]
         mode = samples[i][1]
-        time_diff = (next_timestamp - timestamp).total_seconds()
+        modecount = 0
         if mode >= powered_on_threshold:  # Assuming mode >= powered_on_threshold indicates ON state
-            powered_on_time += time_diff
+            modecount +=1
+            powered_on_time += modecount*readinterval
 
     startA_time = samples[0][2] if samples else 0.0
     endA_time = samples[-1][2] if samples else 0.0
