@@ -100,7 +100,7 @@ The code consists of 3 components:
 
 - **Register use for further expansion**:  
     If any other timers or functionalities are to be introduced, register numbers 24-47 must be used, as registers 0-23 are reserved for Fieldbus activities. While Fieldbus is not currently being used, it is good practice to use registers meant for external data transfers, leaving Fieldbus capability free.
-    > **Note**: If additional timers are used to segregate active time based on production activity, the XML recipe must be changed to read the new registers holding separate active time data, as mentioned previously.
+    > **Note**: If additional timers are used to segregate active time based on production activity, the XML recipe must be changed to read the new registers holding separate active time data.
 
 - **Relay user restrictions**:  
     The current relay setup requires a user to be logged into the 3D computer in order for the relay to fire. A workaround where the Windows Task Scheduler is tied to the machine rather than the user account will simplify firing the windows relay greatly.
