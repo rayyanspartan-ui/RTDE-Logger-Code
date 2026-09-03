@@ -12,7 +12,7 @@ A system used to track the active time, total powered on time, idle time and uti
 
 ### Robot Timer:
 
-The first step in the logging process is to track the active time of the robot, i.e. the time the robot is actively performing production activities. This is achieved by using the multithreading capability of PolyScope, whereby a separate thread is used to increment a timer tracking the active time. This thread acts as a daemonic thread and terminates when the parent program stops, even though it is NOT a daemonic thread. Note that the active timer is an installation variable and thus does not change on shutdown or reboot. The active time installation variable is then written to output_double_register_0, along with robot mode.  
+The first step in the logging process is to track the active time of the robot, i.e. the time the robot is actively performing production activities. This is achieved by using the multithreading capability of PolyScope, whereby a separate thread is used to increment a timer tracking the active time. This thread acts as a daemonic thread and terminates when the parent program stops, even though it is NOT a daemonic thread. Note that the active timer is an installation variable and thus does not change on shutdown or reboot. The active time installation variable is then written to output_double_register_0, along with robot mode. Note that while the output register is of type double, the URScript command used to write to the register is write_output_float_register(registernumber, value). 
   
 ### Pi logger:
 Once the active timer data is available at  output_double_register_0, it is read and stored by the Raspberry Pi, along with robot mode. The raw data is stored in a CSV file on the Pi's hard drive, with the comma separated values following the format:  
@@ -35,7 +35,7 @@ If the Pi is not powered on at the time of the compilation task (as could be the
 
 ### Windows Relay:
 
-In order to transfer the monthly data from the Pi's storage drive to the company server, a relay between the Pi and the server was to be set up, due to restrictions around direct file transfer from the Pi.  
+In order to transfer the monthly data from the Pi's storage drive to the company server, a relay between the Pi and the server has been set up, due to restrictions around direct file transfer from the Pi.  
 
 As such, the 3D printing computer on the factory floor acts as a middle ground for the transfer of the monthly Excel report to the shared server. The 3D printer computer pulls the data file from the Pi at the end of each month using an SCP pull, saving a copy on the local drive as a backup and copying the monthly report onto the shared server. This is possible as the 3D printer computer is already authorized in the security system and has full access to the engineering drive. The SCP pull and copy task is run using Windows scheduler on the 2nd of every month. 
 
