@@ -1,10 +1,10 @@
 #This file holds all the configuration variables for the application. It is used to store settings that can be easily modified without changing the main codebase.
 from pathlib import Path
 
-#File pathing variables, for XML recipe and CSV intermediary file
-ROBOTCONFIG = Path(r"C:\Users\localadmin\Desktop\RTDE Logger\RTDE-Logger-Code\RobotConfig.XML")
-CSV_PATH = Path(r"U:\New Products\Student Files, archive\Rayyan Ashar (May 2026 - December 2026)\RTDE-Logger-Code\Source Code\data.csv")
-EXCEL_PATH = Path(r"U:\New Products\Student Files, archive\Rayyan Ashar (May 2026 - December 2026)\RTDE-Logger-Code\Source Code\data.xlsx")
+#File pathing variables, for XML recipe and CSV intermediary file. NOTE: These paths are dummy paths, to protect sensitive information.
+ROBOTCONFIG = Path(r"/path/to/RobotConfig.XML")
+CSV_PATH = Path(r"/path/to/data.csv")
+EXCEL_PATH = Path(r"/path/to/data.xlsx")
 
 # RTDE connection parameters
 HOST = "127.0.0.1"
