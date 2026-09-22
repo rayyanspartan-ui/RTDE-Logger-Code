@@ -7,7 +7,7 @@ from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
 
 import config
-from M2 import calculate_utilization, read_samples
+from Utilization import calculate_utilization, read_samples
 
 path = config.EXCEL_PATH  # Use the EXCEL_PATH from config.py
 
