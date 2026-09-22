@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from M2 import calculate_utilization  #import the function to be tested
+from Utilization import calculate_utilization  #import the function to be tested
 
 
 def test_Power_ON():
